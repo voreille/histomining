@@ -200,3 +200,22 @@ class HDF5WSIDatasetCLAMWithTileID(Dataset):
     def close(self):
         """Ensure the HDF5 file is properly closed."""
         self.h5_file.close()
+
+
+class EmbeddingDataset(Dataset):
+    def __init__(self, embeddings, labels):
+        """
+        Dataset to store precomputed embeddings and tile IDs.
+
+        Args:
+            embeddings (np.ndarray): Array of embeddings.
+            tile_ids (list): List of tile IDs.
+        """
+        self.embeddings = embeddings
+        self.labels = labels
+
+    def __len__(self):
+        return len(self.embeddings)
+
+    def __getitem__(self, idx):
+        return self.embeddings[idx], self.labels[idx]

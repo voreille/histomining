@@ -42,9 +42,9 @@
                 "--model-name",
                 "UNI2",
                 "--output-file",
-                "${workspaceFolder}/data/processed/tcga-ut-embeddings/uni2-embeddings.h5",
+                "${workspaceFolder}/data/processed/tcga-ut-embeddings/uni2-embeddings-mag-key-0.h5",
                 "--batch-size",
-                "256",
+                "512",
                 "--num-workers",
                 "32",
                 "--gpu-id",
@@ -68,6 +68,37 @@
             ],
             "console": "integratedTerminal",
             "justMyCode": false
+        },
+        {
+            "name": "Train Linear Probing from Embeddings",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/histomining/training/train_linear_probing_from_embeddings.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--embeddings-h5-path",
+                "${workspaceFolder}/data/processed/tcga-ut-embeddings/uni2-embeddings-mag-key-0.h5",
+                "--split-csv-path",
+                "/mnt/nas7/data/Personal/Valentin/tcga-ut/train_val_test_split_extended.csv",
+                "--output-path",
+                "${workspaceFolder}/models/linear_probing_from_embeddings/linear_probing_weights_uni2_mag_key_0.ckpt",
+                "--num-epochs",
+                "50",
+                "--gpu-id",
+                "0",
+                "--batch-size",
+                "256",
+                "--lr",
+                "0.001",
+                "--weight-decay",
+                "0.01",
+                "--num-workers",
+                "0"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
         }
     ]
 }

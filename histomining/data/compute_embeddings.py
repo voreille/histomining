@@ -28,8 +28,10 @@ label_map = {
 @click.option("--magnification-key", default=0, help="Magnification key as defined by TCGA-UT.")
 def main(data_dir, model_name, output_file, batch_size, num_workers, gpu_id, magnification_key):
     """Simple CLI program to greet someone"""
-    tile_paths = list(Path(data_dir).glob(f"./*/{magnification_key}/*/*.jpg"))
+    data_dir = Path(data_dir)
+    tile_paths = list(data_dir.glob(f"./*/{magnification_key}/*/*.jpg"))
     tile_ids = [str(p.parent.name + "/" + p.name) for p in tile_paths]
+    relative_tile_paths = [str(p.relative_to(data_dir)) for p in tile_paths]
     labels = [label_map[tile_path.parents[2].name] for tile_path in tile_paths]
 
     device = get_device(gpu_id)
@@ -67,6 +69,7 @@ def main(data_dir, model_name, output_file, batch_size, num_workers, gpu_id, mag
         # Store strings as variable-length ASCII
         dt_str = h5py.special_dtype(vlen=str)
         f.create_dataset("tile_ids", data=tile_ids, dtype=dt_str)
+        f.create_dataset("paths", data=relative_tile_paths, dtype=dt_str)
         f.create_dataset("labels", data=labels, dtype=dt_str)
 
         # Store metadata
