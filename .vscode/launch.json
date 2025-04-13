@@ -1,0 +1,73 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Select and Copy CPTAC Tiles",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/histomining/data/select_and_copy_normal_tile_cptac.py",
+            "args": [
+                "--tiles-dir",
+                "/mnt/nas7/data/Personal/Valentin/histopath/tiles_20x_256",
+                "--cptac-luad-csv",
+                "/mnt/nas6/data/CPTAC/TCIA_CPTAC_LUAD_Pathology_Data_Table.csv",
+                "--cptac-lusc-csv",
+                "/mnt/nas6/data/CPTAC/TCIA_CPTAC_LSCC_Pathology_Data_Table.csv",
+                "--output-dir",
+                "/mnt/nas7/data/Personal/Valentin/tcga-ut/Lung_normal/0/",
+                "--average-tiles-per-patient",
+                "40"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
+            "name": "Compute Embeddings",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/histomining/data/compute_embeddings.py",
+            "args": [
+                "--data-dir",
+                "/mnt/nas7/data/Personal/Valentin/tcga-ut",
+                "--model-name",
+                "UNI2",
+                "--output-file",
+                "${workspaceFolder}/data/processed/tcga-ut-embeddings/uni2-embeddings.h5",
+                "--batch-size",
+                "256",
+                "--num-workers",
+                "32",
+                "--gpu-id",
+                "0"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
+            "name": "Create CSV Data Split",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/histomining/data/create_csv_data_split.py",
+            "args": [
+                "--tcga-ut-path",
+                "/mnt/nas7/data/Personal/Valentin/tcga-ut",
+                "--tcga-ut-csv-split",
+                "/mnt/nas7/data/Personal/Valentin/tcga-ut/train_val_test_split.csv",
+                "--output-csv",
+                "/mnt/nas7/data/Personal/Valentin/tcga-ut/train_val_test_split_extended.csv",
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
+        }
+    ]
+}
