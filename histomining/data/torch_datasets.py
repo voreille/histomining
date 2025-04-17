@@ -39,6 +39,41 @@ class TileDataset(Dataset):
         return image
 
 
+class TileDatasetWithResizing(Dataset):
+    def __init__(self, tile_paths, preprocess=None, target_mpp=1000.0, input_tile_size=256):
+        """
+        Tile-level dataset that returns individual tile images from a list of paths.
+
+        Args:
+            tile_paths (list): List of paths to tile images for a WSI.
+            augmentation (callable, optional): augmentation to apply to each tile image.
+            transform (callable, optional): Transform to apply to each tile image.
+        """
+        self.tile_paths = tile_paths
+        self.preprocess = preprocess
+        self.target_mpp = target_mpp
+        self.input_tile_size = input_tile_size
+
+    def __len__(self):
+        return len(self.tile_paths)
+
+    def _load_image(self, path):
+        """Loads a JPG image using PIL."""
+        return Image.open(path).convert("RGB")
+
+    def __getitem__(self, idx):
+        tile_path = self.tile_paths[idx]
+        mpp = float(tile_path.stem.split("_")[-1])
+        target_tile_size = int(self.input_tile_size * self.target_mpp / mpp)
+        image = self._load_image(tile_path)
+        image = image.resize((target_tile_size, target_tile_size), Image.LANCZOS)
+
+        if self.preprocess:
+            image = self.preprocess(image)
+
+        return image
+
+
 class HDF5WSIDataset(Dataset):
     """Dataset to load embeddings from an HDF5 file for MIL training."""
 

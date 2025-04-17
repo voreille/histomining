@@ -18,13 +18,13 @@
             "program": "${workspaceFolder}/histomining/data/select_and_copy_normal_tile_cptac.py",
             "args": [
                 "--tiles-dir",
-                "/mnt/nas7/data/Personal/Valentin/histopath/tiles_20x_256",
+                "/mnt/nas7/data/Personal/Valentin/histopath/tiles_10x_256",
                 "--cptac-luad-csv",
                 "/mnt/nas6/data/CPTAC/TCIA_CPTAC_LUAD_Pathology_Data_Table.csv",
                 "--cptac-lusc-csv",
                 "/mnt/nas6/data/CPTAC/TCIA_CPTAC_LSCC_Pathology_Data_Table.csv",
                 "--output-dir",
-                "/mnt/nas7/data/Personal/Valentin/tcga-ut/Lung_normal/0/",
+                "/mnt/nas7/data/Personal/Valentin/tcga-ut/Lung_normal/5/",
                 "--average-tiles-per-patient",
                 "40"
             ],
@@ -42,13 +42,15 @@
                 "--model-name",
                 "UNI2",
                 "--output-file",
-                "${workspaceFolder}/data/processed/tcga-ut-embeddings/uni2-embeddings-mag-key-0.h5",
+                "${workspaceFolder}/data/processed/tcga-ut-embeddings/uni2-embeddings-mag-key-5-with-resizing.h5",
                 "--batch-size",
                 "512",
                 "--num-workers",
                 "32",
                 "--gpu-id",
-                "0"
+                "0",
+                "--magnification-key",
+                "5"
             ],
             "console": "integratedTerminal",
             "justMyCode": false
@@ -78,11 +80,11 @@
             "justMyCode": true,
             "args": [
                 "--embeddings-h5-path",
-                "${workspaceFolder}/data/processed/tcga-ut-embeddings/uni2-embeddings-mag-key-0.h5",
+                "${workspaceFolder}/data/processed/tcga-ut-embeddings/uni2-embeddings-mag-key-5-with-resizing.h5",
                 "--split-csv-path",
                 "/mnt/nas7/data/Personal/Valentin/tcga-ut/train_val_test_split_extended.csv",
                 "--output-path",
-                "${workspaceFolder}/models/linear_probing_from_embeddings/linear_probing_weights_uni2_mag_key_0.ckpt",
+                "${workspaceFolder}/models/linear_probing_from_embeddings/linear_probing_weights_uni2_mag_key_5_with_resizing.ckpt",
                 "--num-epochs",
                 "50",
                 "--gpu-id",

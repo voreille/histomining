@@ -26,7 +26,8 @@ def load_model(model_name, device, apply_torch_scripting=True):
             [
                 transforms.ToTensor(),
                 transforms.Normalize(
-                    mean=(0.707223, 0.578729, 0.703617), std=(0.211883, 0.230117, 0.177517)
+                    mean=(0.707223, 0.578729, 0.703617),
+                    std=(0.211883, 0.230117, 0.177517),
                 ),
             ]
         )
@@ -43,7 +44,8 @@ def load_model(model_name, device, apply_torch_scripting=True):
             [
                 transforms.ToTensor(),
                 transforms.Normalize(
-                    mean=(0.707223, 0.578729, 0.703617), std=(0.211883, 0.230117, 0.177517)
+                    mean=(0.707223, 0.578729, 0.703617),
+                    std=(0.211883, 0.230117, 0.177517),
                 ),
             ]
         )
@@ -66,10 +68,33 @@ def load_model(model_name, device, apply_torch_scripting=True):
             "reg_tokens": 8,
             "dynamic_img_size": True,
         }
-        model = timm.create_model("hf-hub:MahmoodLab/UNI2-h", pretrained=True, **timm_kwargs)
-        preprocess = create_transform(**resolve_data_config(model.pretrained_cfg, model=model))
+        model = timm.create_model(
+            "hf-hub:MahmoodLab/UNI2-h", pretrained=True, **timm_kwargs
+        )
+        preprocess = create_transform(
+            **resolve_data_config(model.pretrained_cfg, model=model)
+        )
         embedding_dim = 1536
         autocast_dtype = torch.bfloat16
+    elif "prov-gigapath" == model_name:
+        model = timm.create_model(
+            "hf_hub:prov-gigapath/prov-gigapath", pretrained=True
+        )
+        preprocess = transforms.Compose(
+            [
+                transforms.Resize(
+                    256, interpolation=transforms.InterpolationMode.BICUBIC
+                ),
+                transforms.CenterCrop(224),
+                transforms.ToTensor(),
+                transforms.Normalize(
+                    mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)
+                ),
+            ]
+        )
+
+        embedding_dim = 1536
+        autocast_dtype = torch.float16
     else:
         raise ValueError(f"Model {model_name} is not supported.")
 

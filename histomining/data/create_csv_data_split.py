@@ -9,11 +9,12 @@ import pandas as pd
 @click.option("--tcga-ut-path", required=True, help="Path to the TCGA UT directory.")
 @click.option("--tcga-ut-csv-split", required=True, help="Path to the TCGA UT CSV split file.")
 @click.option("--output-csv", required=True, help="Path to the output CSV file.")
-def main(tcga_ut_path, tcga_ut_csv_split, output_csv):
+@click.option("--magnification-key", default=5, help="magnification key for the output directory.")
+def main(tcga_ut_path, tcga_ut_csv_split, output_csv, magnification_key):
     tcga_ut_path = Path(tcga_ut_path)
     tcga_ut_split = pd.read_csv(tcga_ut_csv_split)
 
-    tile_paths = list((tcga_ut_path / "Lung_normal/0").rglob("*.jpg"))
+    tile_paths = list((tcga_ut_path / f"Lung_normal/{magnification_key}").rglob("*.jpg"))
     patient_ids = list(set([str("-".join(p.parent.name.split("-")[:2])) for p in tile_paths]))
     print(f"Found {len(tile_paths)} tiles from {len(patient_ids)} patients.")
 

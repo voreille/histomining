@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader
 from torchvision import transforms
 from tqdm import tqdm
 
-from histomining.data.torch_datasets import TileDataset
+from histomining.data.torch_datasets import TileDataset, TileDatasetWithResizing
 from histomining.models.foundation_models import load_model
 from histomining.utils import get_device
 
@@ -39,7 +39,7 @@ def main(data_dir, model_name, output_file, batch_size, num_workers, gpu_id, mag
         model_name, device, apply_torch_scripting=True
     )
 
-    dataset = TileDataset(
+    dataset = TileDatasetWithResizing(
         tile_paths,
         preprocess=transforms.Compose(
             [
